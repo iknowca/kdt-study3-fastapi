@@ -4,7 +4,8 @@ on:
     branches:
       - main
 env:
-  DOCKER_IMAGE: ghcr.io/${{ github.actor }}/fastapi-for-aws-deploy-test
+  DOCKER_IMAGE: ghcr.io/${{ github.actor }}/kdt-study3-fastapi
+
   VERSION: ${{ github.sha }}
   NAME: fastapi-for-aws-deploy-test
 jobs:
@@ -37,7 +38,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.actor }}/fastapi-for-aws-deploy-test:latest
+          tags: ghcr.io/${{ github.actor }}/kdt-study3-fastapi:latest
           platforms: linux/arm64
   deploy:
     needs: build
@@ -60,10 +61,10 @@ jobs:
           script: |
             pwd
             ls -al
-            cd fastapi/actions-runner
+            cd actions-runner-fastapi
             pwd
             echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            docker pull ghcr.io/yeoulcho/fastapi-for-aws-deploy-test:latest
+            docker pull ghcr.io/iknowca/kdt-study3-fastapi:latest
             docker image prune -f
             docker logout
             docker-compose up -d
